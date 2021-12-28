@@ -2,16 +2,15 @@ package com.example.handsonfirebase;
 
 class loginhelperclass {
 
-    String userName, password, userEmail, phoneNo;
+    String userName, userEmail, phoneNo;
 
     public loginhelperclass() {
 //        Empty constructor required
     }
 
-    public loginhelperclass(String phoneNo, String userName, String password, String userEmail) {
+    public loginhelperclass(String phoneNo, String userName, String userEmail) {
         this.phoneNo = phoneNo;
         this.userName = userName;
-        this.password = password;
         this.userEmail = userEmail;
     }
 
@@ -21,10 +20,6 @@ class loginhelperclass {
 
     public String getUserName() {
         return userName;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getUserEmail() {

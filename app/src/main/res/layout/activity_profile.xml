@@ -36,21 +36,6 @@
     app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
-        android:id="@+id/password_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text=""
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:layout_marginTop="20dp"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintTop_toBottomOf="@id/email_text_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <TextView
         android:id="@+id/phoneNo_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,7 +45,23 @@
         android:textAlignment="center"
         android:layout_marginTop="20dp"
         app:layout_constraintVertical_bias="0"
-        app:layout_constraintTop_toBottomOf="@id/password_text_view"
+        app:layout_constraintTop_toBottomOf="@id/email_text_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintVertical_bias="0"
+        android:text="Log out"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+        app:layout_constraintTop_toBottomOf="@+id/phoneNo_text_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
