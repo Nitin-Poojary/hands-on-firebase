@@ -9,6 +9,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 public class signin extends AppCompatActivity {
 
     String email, password;
+
+    TextView reset;
 
     EditText userEmail_SignIn, passwordSignIn;
     Button signIN;
@@ -35,6 +38,14 @@ public class signin extends AppCompatActivity {
         userEmail_SignIn = findViewById(R.id.email_signin_edit_text);
         passwordSignIn = findViewById(R.id.password_signin_edit_text);
         signIN = findViewById(R.id.signin);
+        reset = findViewById(R.id.resetTextView);
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(signin.this, ForgotPassword.class));
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -45,6 +56,8 @@ public class signin extends AppCompatActivity {
                 signInUser(email, password);
             }
         });
+
+
     }
 
     public void getEmailandPassword(){
@@ -59,7 +72,14 @@ public class signin extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            startActivity(new Intent(signin.this, profile.class));
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            if (user.isEmailVerified()){
+                                startActivity(new Intent(signin.this, profile.class));
+                            }
+                            else{
+                                user.sendEmailVerification();
+                                Toast.makeText(signin.this, "Check your email for verification", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         else {
                             Toast.makeText(signin.this, "Failed to login", Toast.LENGTH_SHORT).show();

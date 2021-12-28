@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HandsOnFirebase">
         <activity
+            android:name=".ForgotPassword"
+            android:exported="false" />
+        <activity
             android:name=".signin"
             android:exported="false" />
         <activity
