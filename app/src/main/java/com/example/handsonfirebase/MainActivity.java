@@ -10,6 +10,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
 
+    private ProgressBar progressBar;
     private DatabaseReference mDatabase;
     private EditText userName , userPassword, userEmail, userPhoneNo;
 
@@ -34,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
 
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
 
@@ -68,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null){
-            startActivity(new Intent(MainActivity.this, profile.class));
+            startActivity(new Intent(MainActivity.this, HomeActivity.class));
         }
     }
 
@@ -92,8 +97,9 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
+                                        progressBar.setVisibility(View.GONE);
                                         Toast.makeText(MainActivity.this, "Succefully signed in", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(MainActivity.this, profile.class);
+                                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                                         startActivity(intent);
                                     }
                                     else {
@@ -147,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
             userPhoneNo.requestFocus();
             return;
         }
+        progressBar.setVisibility(View.VISIBLE);
         registerUser();
     }
 

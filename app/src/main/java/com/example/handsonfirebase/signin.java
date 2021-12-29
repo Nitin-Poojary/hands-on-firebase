@@ -9,6 +9,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,8 @@ public class signin extends AppCompatActivity {
 
     String email, password;
 
+    private ProgressBar progressBar;
+
     TextView reset;
 
     EditText userEmail_SignIn, passwordSignIn;
@@ -34,6 +37,9 @@ public class signin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
+
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
 
         userEmail_SignIn = findViewById(R.id.email_signin_edit_text);
         passwordSignIn = findViewById(R.id.password_signin_edit_text);
@@ -53,11 +59,9 @@ public class signin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getEmailandPassword();
-                signInUser(email, password);
+                validateEmailandPassword();
             }
         });
-
-
     }
 
     public void getEmailandPassword(){
@@ -66,7 +70,6 @@ public class signin extends AppCompatActivity {
     }
 
     public void signInUser(String email, String password){
-        validateEmailandPassword();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -74,7 +77,8 @@ public class signin extends AppCompatActivity {
                         if (task.isSuccessful()){
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             if (user.isEmailVerified()){
-                                startActivity(new Intent(signin.this, profile.class));
+                                progressBar.setVisibility(View.GONE);
+                                startActivity(new Intent(signin.this, HomeActivity.class));
                             }
                             else{
                                 user.sendEmailVerification();
@@ -96,6 +100,7 @@ public class signin extends AppCompatActivity {
         if (password.length() < 6){
             passwordSignIn.setError("Password should be atleast 6 characters");
             passwordSignIn.requestFocus();
+            return;
         }
         if (email.isEmpty()){
             userEmail_SignIn.setError("User email required");
@@ -105,6 +110,9 @@ public class signin extends AppCompatActivity {
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             userEmail_SignIn.setError("Provide valid email");
             userEmail_SignIn.requestFocus();
+            return;
         }
+        progressBar.setVisibility(View.VISIBLE);
+        signInUser(email, password);
     }
 }
