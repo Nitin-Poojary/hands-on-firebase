@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
@@ -19,13 +20,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class profile extends AppCompatActivity {
 
     TextView phoneNo, name, email;
+    ImageView profilePhoto;
 
     FirebaseAuth mAuth;
-    Button logout;
+    Button edit, logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +38,17 @@ public class profile extends AppCompatActivity {
         email = findViewById(R.id.email_text_view);
         name = findViewById(R.id.username_text_view);
         phoneNo = findViewById(R.id.phoneNo_text_view);
+        profilePhoto = findViewById(R.id.profile);
 
         logout = findViewById(R.id.logout_button);
+        edit = findViewById(R.id.edit);
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(profile.this, EditProfile.class));
+            }
+        });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override

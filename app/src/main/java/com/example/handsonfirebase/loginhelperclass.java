@@ -1,6 +1,10 @@
 package com.example.handsonfirebase;
 
+import android.net.Uri;
+
 class loginhelperclass {
+
+    Uri imageUri;
 
     String userName, userEmail, phoneNo;
 
@@ -12,6 +16,14 @@ class loginhelperclass {
         this.phoneNo = phoneNo;
         this.userName = userName;
         this.userEmail = userEmail;
+    }
+
+    public void setImageUri(Uri imageUri) {
+        this.imageUri = imageUri;
+    }
+
+    public Uri getImageUri() {
+        return imageUri;
     }
 
     public String getPhoneNo() {
