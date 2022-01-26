@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -24,10 +25,14 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.attribute.UserPrincipalLookupService;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditProfile extends AppCompatActivity implements View.OnClickListener {
 
     private final int PICK_IMAGE = 25;
+
+    String imageDownloadPath;
 
     Bitmap bitmap;
 
@@ -104,10 +109,21 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(EditProfile.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            imageDownloadPath = uri.toString();
+                        }
+                    });
                 }
             });
 
-            databaseReference.child(mAuth.getUid()).setValue(imageUri.getPath());
+            Intent intent = getIntent();
+            loginhelperclass userDetails = new loginhelperclass(intent.getStringExtra("userPhoneNo"),
+                    intent.getStringExtra("userName"), intent.getStringExtra("userEmail"),
+                    imageDownloadPath);
+
+            databaseReference.child(mAuth.getUid()).setValue(userDetails);
         }
     }
 }

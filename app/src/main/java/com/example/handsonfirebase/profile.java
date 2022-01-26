@@ -38,7 +38,7 @@ public class profile extends AppCompatActivity {
         email = findViewById(R.id.email_text_view);
         name = findViewById(R.id.username_text_view);
         phoneNo = findViewById(R.id.phoneNo_text_view);
-        profilePhoto = findViewById(R.id.profile);
+        profilePhoto = findViewById(R.id.photoProfileActivity);
 
         logout = findViewById(R.id.logout_button);
         edit = findViewById(R.id.edit);
@@ -46,7 +46,11 @@ public class profile extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(profile.this, EditProfile.class));
+                Intent intent = new Intent(profile.this, EditProfile.class);
+                intent.putExtra("userName", name.getText());
+                intent.putExtra("userEmail", email.getText());
+                intent.putExtra("userPhoneNo", phoneNo.getText());
+                startActivity(intent);
             }
         });
 
@@ -78,5 +82,6 @@ public class profile extends AppCompatActivity {
         name.setText(currentUser.getUserName());
         email.setText(currentUser.getUserEmail());
         phoneNo.setText(currentUser.getPhoneNo());
+        Picasso.get().load(currentUser.getImageUrl()).fit().centerCrop().into(profilePhoto);
     }
 }
